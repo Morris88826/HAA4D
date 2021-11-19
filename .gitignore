@@ -1,0 +1,23 @@
+.DS_Store
+project-website/node_modules
+project-website/dist
+
+
+# local env files
+project-website/.env.local
+project-website/.env.*.local
+
+# Log files
+project-website/npm-debug.log*
+project-website/yarn-debug.log*
+project-website/yarn-error.log*
+project-website/pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
