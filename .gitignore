@@ -21,3 +21,5 @@ project-website/pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+supplementary
