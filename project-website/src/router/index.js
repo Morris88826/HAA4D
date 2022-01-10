@@ -1,20 +1,41 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Layout from "../views/Layout.vue";
+import Home from "../views/Home.vue";
+import Dataset from "../views/Dataset.vue";
+import AnnotationTool from "../views/AnnotationTool.vue";
+import Explore from "../views/Explore.vue";
+import Others from "../views/Others.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Layout",
-    component: Layout,
+    name: "home",
+    component: Home,
+    meta: { layout: Layout },
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    name: "dataset",
+    path: "/dataset",
+    component: Dataset,
+    meta: { layout: Layout },
+  },
+  {
+    name: "annotationTool",
+    path: "/annotationTool",
+    component: AnnotationTool,
+    meta: { layout: Layout },
+  },
+  {
+    name: "explore",
+    path: "/explore",
+    component: Explore,
+    meta: { layout: Layout },
+  },
+  {
+    name: "others",
+    path: "/others",
+    component: Others,
+    meta: { layout: Layout },
   },
 ];
 

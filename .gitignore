@@ -23,3 +23,5 @@ project-website/pnpm-debug.log*
 *.sw?
 
 supplementary
+database_local
+dataset

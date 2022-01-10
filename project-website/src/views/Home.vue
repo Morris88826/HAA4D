@@ -4,86 +4,92 @@
     style="margin-top: 50px; margin-left: 100px; margin-right: 100px"
   >
     <div>
-      <h1 class="section">Overview</h1>
+      <h1 class="section">Abstract</h1>
       <p>
-        This page introduces a new 4D dataset, <b>HAA4D</b>, consisting of more
-        than <b>3,300</b> RGB videos in <b>300</b> single-person atomic action
-        classes.
+        Human actions involve complex pose variations, and their 2D projections
+        can be highly ambiguous. Thus 3D Spatio-temporal or 4D (i.e., 3D+T)
+        human skeletons, which are <b>photometric and viewpoint invariant</b>,
+        are an excellent alternative to 2D+T skeletons/pixels to improve action
+        recognition accuracy. This paper proposes a <b>new 4D dataset</b>,
+        <b>HAA4D</b>, consisting of more than <b>3,300 RGB videos</b> in
+        <b>300 human atomic action classes</b>. HAA4D is <b>clean</b>,
+        <b>diverse</b>, <b>class-balanced</b> where each class is
+        viewpoint-balanced with the use of 4D skeletons, in which as few as one
+        4D skeleton per class is sufficient for training a deep recognition
+        model. Further, the choice of atomic actions makes annotation even
+        easier because each video clip lasts for only a few seconds. All
+        training and testing 3D skeletons in HAA4D are <b>globally aligned</b>,
+        using a deep alignment model to the same global space, making each
+        skeleton face the <b>negative z-direction</b>. Such alignment makes
+        matching skeletons more stable by
+        <b>reducing intraclass variations</b> and thus with fewer training
+        samples per class needed for action recognition. Given the high
+        diversity and skeletal alignment in HAA4D, we construct the first
+        baseline
+        <b>few-shot 4D human atomic action recognition network</b> without bells
+        and whistles, which produces comparable or higher performance than
+        relevant state-of-the-art techniques relying on embedded space encoding
+        without explicit skeletal alignment, using the same small number of
+        training samples of unseen classes.
       </p>
-      <p>
-        HAA4D is <b>clean</b>, <b>diverse</b>, <b>class-balanced</b> where each
-        class is viewpoint-balanced with the use of 3D+T or 4D skeletons.
-      </p>
-      <p>
-        The dataset contains <b>RGB images</b>, <b>2D</b>, and
-        <b>3D</b> skeletons. Parts of the dataset contain additional globally
-        aligned skeleton where action sequences are rotated to face in the
-        <b>negative z</b> direction.
-      </p>
-
-      <p>
-        Currently, there are 300 classes of human actions. <b>155</b> of them
-        contain <b>20 samples per class</b>, while the rest classes have
-        <b>2 samples per class</b>.
-      </p>
-
-      <p>
-        Unlike Kinetics-Skeleton, HAA4D consists of hand-labeled 2D human
-        skeletons position where the accuracy will not be subject to occluded or
-        out-of-bound joints. Thus, it increases the precision of the 3D
-        ground-truth skeleton and benefits training for new joint prediction
-        models that can reasonably hallucinate out-of-frame joints. The labeled
-        2D joints will then be raised to 3D using EvoSkeleton.
-      </p>
-
-      <p>
-        We also provide an annotation tool that can help users with faster
-        labeling. We hope that by providing this annotation tool, the dataset
-        can become more comprehensive in the future to cover more human action
-        poses, contributing to research in few-shot human pose estimation and
-        action recognition that utilizes 3D+T data.
-      </p>
+      <br />
+      <h1>Our Contribution</h1>
+      <ol>
+        <li>
+          HAA4D, a human atomic action dataset where all 4D skeletons are
+          globally aligned. HAA4D complements existing prominent 3D+T human
+          action datasets such as NTU-RGB+D and Kinetics Skeleton 400. HAA4D
+          contains 3390 samples of human actions in the wild with 300 different
+          kinds of activities. The samples for each human action range from 2 to
+          20, each provided with RGB frames and their corresponding 3D
+          skeletons.
+        </li>
+        <li>
+          Introducing an alignment network for predicting orthographic camera
+          poses in the train/test samples, where all 4D skeletons are aligned in
+          the same camera space, each facing the negative z-direction. This
+          allows for better recognition results with a smaller number of
+          training samples compared to ST-GCN, Shift-GCN, and SGN.
+        </li>
+        <li>
+          Introduce the first few-shot baseline for 4D human (atomic) action
+          recognition that produces results comparable to or better than
+          state-of-the-art techniques on unseen classes using a small number of
+          training samples.
+        </li>
+      </ol>
+      <br />
+      <div>
+        <p>
+          The 3D skeleton is <b>viewpoint invariant</b>: all train/test 3D
+          skeletons in HAA4D are registered by their respective orthographic
+          camera pose estimated using our global alignment model. Thus a single
+          training 3D skeleton per class is sufficient, in stark contrast to the
+          use of 2D RGB images or skeletons, where a large number of training
+          data is required, and uneven sampling is an issue.
+          <b
+            >Trained with as few as one 3D+T or 4D burpee skeleton, the network
+            can readily recognize any normalized burpee action shot from any
+            viewing angles</b
+          >, including those under the person, which are difficult to capture.
+          As shown in the figure below, we can use the predicted camera poses to
+          rectify views of the input 3D skeletons and bring them to the same
+          coordinate system (globally aligned space). This rectification
+          provides a <b>stronger correlation between each sample</b> and allows
+          us to utilize the explicit information, such as the coordinate of the
+          joints, directly for sequence matching and obtain a higher accuracy in
+          differentiate the action.
+        </p>
+        <div style="text-align: center">
+          <img
+            src="../assets/teaser.png"
+            alt="../assets/teaser.png"
+            style="width: 80%"
+          />
+        </div>
+      </div>
     </div>
     <br />
-    <div>
-      <h1 class="section">1. Action Classes</h1>
-      <h3>1.1 Twenty examples per class ({{ jsonData.class_20.length }})</h3>
-      <table>
-        <tr v-for="(row, i) in createTable(jsonData.class_20)" :key="i">
-          <td v-for="action in row" :key="action">
-            <p style="font-size: 12px; margin: auto">
-              {{ getIdex(action) }}: {{ action }}
-            </p>
-          </td>
-        </tr>
-      </table>
-      <br />
-      <h3>1.2 Two examples per class ({{ jsonData.class_2.length }})</h3>
-      <table>
-        <tr v-for="(row, i) in createTable(jsonData.class_2)" :key="i">
-          <td v-for="action in row" :key="action">
-            <p style="font-size: 12px; margin: auto">
-              {{ getIdex(action) }}: {{ action }}
-            </p>
-          </td>
-        </tr>
-      </table>
-      <br />
-      <h3>
-        1.3 Globally Aligned Skeletons ({{ jsonData.class_global.length }})
-      </h3>
-      <table>
-        <tr v-for="(row, i) in createTable(jsonData.class_global)" :key="i">
-          <td v-for="action in row" :key="action">
-            <p style="font-size: 12px; margin: auto">
-              {{ getIdex(action) }}: {{ action }}
-            </p>
-          </td>
-        </tr>
-      </table>
-      <br />
-      <h1>2. Dataset Details</h1>
-    </div>
   </div>
 </template>
 
@@ -94,55 +100,19 @@ export default defineComponent({
   name: "Home",
   components: {},
   data() {
-    return {
-      jsonData: null,
-      allClasses: [],
-      num_cols: 5,
-    };
+    return {};
   },
-  methods: {
-    createTable(items) {
-      let table = [];
-      let row = [];
-      for (let i = 0; i < items.length; i++) {
-        row.push(items[i]);
-        if ((i + 1) % this.num_cols === 0) {
-          table.push(row);
-          row = [];
-        } else if (i == items.length - 1) {
-          table.push(row);
-          row = [];
-        }
-      }
-      return table;
-    },
-
-    getIdex(action) {
-      for (let i = 0; i < this.allClasses.length; i++) {
-        if (this.allClasses[i] === action) {
-          return i + 1;
-        }
-      }
-      return -1;
-    },
-  },
-
-  beforeMount() {
-    this.jsonData = require("../assets/all_classes.json");
-    this.allClasses = [];
-    for (let i = 0; i < this.jsonData.class_20.length; i++) {
-      this.allClasses.push(this.jsonData.class_20[i]);
-    }
-    for (let i = 0; i < this.jsonData.class_2.length; i++) {
-      this.allClasses.push(this.jsonData.class_2[i]);
-    }
-  },
+  methods: {},
 });
 </script>
 
 <style scoped>
 p {
   font-size: 16px;
+}
+
+h1 {
+    font-size: 20px;
 }
 
 .section {
@@ -158,4 +128,5 @@ td {
   border-width: 1px;
   width: 20%;
 }
+
 </style>
