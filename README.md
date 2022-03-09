@@ -14,7 +14,7 @@ Currently, HAA4D consists of more than 3,300 4D skeletons in 300 human atomic ac
 * 3D skeletal data
 * Globally aligned skeletons
 
-For RGB videos, it can be downloaded from https://www.cse.ust.hk/haa/
+For RGB videos, it can be downloaded from https://www.cse.ust.hk/haa/ and put it in the video folder.
 
 2D skeletal data, 3D skeletal data, and globally aligned skeletons can be downloaded in [here](https://cse.hkust.edu.hk/haa4d/download.html).
 
