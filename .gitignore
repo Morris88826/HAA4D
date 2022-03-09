@@ -23,5 +23,8 @@ project-website/pnpm-debug.log*
 *.sw?
 
 supplementary
+supplementary.zip
 database_local
+database
 dataset
+

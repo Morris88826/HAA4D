@@ -8,6 +8,7 @@ import "ant-design-vue/dist/antd.css";
 import axios from "axios";
 import VueAxios from "vue-axios";
 
-axios.defaults.baseURL = "http://localhost:5000/";
+axios.defaults.baseURL = "https://haa4d.herokuapp.com/";
+
 
 createApp(App).use(Antd).use(router).use(VueAxios, axios).mount("#app");

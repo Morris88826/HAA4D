@@ -74,7 +74,7 @@ export default defineComponent({
       let selected_action = this.actionOptions.find((a) => {
         return a.value === action;
       });
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 1; i++) {
         this.videoOptions.push({
           value: i,
           label: selected_action.label + "_" + String(i).padStart(3, "0"),
@@ -90,7 +90,6 @@ export default defineComponent({
               this.actionOptions.push({
                 value: res.data.data[i].id,
                 label: res.data.data[i].name,
-                num_examples: res.data.data[i].num_examples,
               });
             }
             return;
@@ -110,6 +109,7 @@ export default defineComponent({
 
   mounted() {
     this.getActionOptions();
+    this.display = false;
   },
 });
 </script>

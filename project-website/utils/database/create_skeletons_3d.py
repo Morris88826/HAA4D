@@ -1,20 +1,34 @@
 import mysql.connector
 import numpy as np
+import glob
+import json
 
-class_dict = {
-    "abseiling": 3,
-}
+filename = "../../src/assets/all_classes.json"
+with open(filename, 'r') as jsonfile:
+    data = json.load(jsonfile)
+
+action_classes = sorted(
+    [f.split('/')[-1] for f in glob.glob("../../../dataset/normalized_skeletons_3d/*")])
+class_dict = {}
+class_id = 1
+for c in data["class_20"]:
+    class_dict[c] = class_id
+    class_id += 1
+for c in data["class_2"]:
+    class_dict[c] = class_id
+    class_id += 1
+
 
 def getValue(filename):
     skeletons_3d = np.load(filename)
 
     class_id = class_dict[filename.split('/')[-1].split('.')[0][:-4]]
     video_id = int(filename.split('/')[-1].split('.')[0][-3:])
-    print(class_id, video_id)
+    # print(class_id, video_id)
 
     vals = []
     for frame_id in range(skeletons_3d.shape[0]):
-        
+
         skeleton = skeletons_3d[frame_id]
         val = [class_id, video_id, frame_id]
         for joint_id in range(skeleton.shape[0]):
@@ -28,11 +42,17 @@ def getValue(filename):
 
 
 if __name__ == "__main__":
+    # mydb = mysql.connector.connect(
+    #     host="localhost",
+    #     user="root",
+    #     passwd="root",
+    #     database="HAA4D"
+    # )
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd="root",
-        database="HAA4D"
+        host="us-cdbr-east-05.cleardb.net",
+        user="be1d55c228f455",
+        passwd="892a86aa",
+        database="heroku_4d2256cc291b81a"
     )
 
     print(mydb)
@@ -71,12 +91,18 @@ if __name__ == "__main__":
     sql = "INSERT INTO skeletons_3d ({}) VALUES ({})".format(
         input_name, input_field)
 
-    class_name = "abseiling"
-    video_id = 1
+    vals = []
 
-    filename = "../../../dataset/normalized_skeletons_3d/{}/{}_{:03d}.npy".format(
-        class_name, class_name, video_id)
-    vals = getValue(filename)
+    for i, action_class in enumerate(action_classes):
+        class_name = action_class
+        video_id = 0
+
+        filename = "../../../dataset/normalized_skeletons_3d/{}/{}_{:03d}.npy".format(
+            class_name, class_name, video_id)
+        vals += getValue(filename)
+
+        if i == 49:
+            break
 
     mycursor.executemany(sql, vals)
 

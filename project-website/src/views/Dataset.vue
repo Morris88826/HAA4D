@@ -162,6 +162,7 @@ export default defineComponent({
 
       datasetComparison: [
         {
+          key: 1,
           dataset: "UWA3D Multiview II",
           samples: 1075,
           actions: 30,
@@ -170,6 +171,7 @@ export default defineComponent({
           year: 2015,
         },
         {
+          key: 2,
           dataset: " NTU RGB+D",
           samples: 56880,
           actions: 60,
@@ -178,14 +180,7 @@ export default defineComponent({
           year: 2016,
         },
         {
-          dataset: "UWA3D Multiview II",
-          samples: 1075,
-          actions: 30,
-          views: 5,
-          modalities: "RGB+D+3DJoints",
-          year: 2015,
-        },
-        {
+          key: 3,
           dataset: "SYSU 3DHOI",
           samples: 480,
           actions: 12,
@@ -194,14 +189,25 @@ export default defineComponent({
           year: 2017,
         },
         {
+          key: 4,
+          dataset: "Kinetics 400",
+          samples: 306245,
+          actions: 400,
+          views: null,
+          modalities: "RGB",
+          year: 2017,
+        },
+        {
+          key: 5,
           dataset: "NTU RGB+D 120",
           samples: 114480,
           actions: 120,
           views: 155,
           modalities: "RGB+D+IR+3DJoints",
-          year: 2015,
+          year: 2019,
         },
         {
+          key: 6,
           dataset: "Kinetics-700-2020",
           samples: 633728,
           actions: 700,
@@ -210,6 +216,7 @@ export default defineComponent({
           year: 2020,
         },
         {
+          key: 7,
           dataset: "Ego4D",
           samples: 3025,
           actions: 110,
@@ -218,6 +225,7 @@ export default defineComponent({
           year: 2021,
         },
         {
+          key: 8,
           dataset: "HAA4D",
           samples: 3390,
           actions: 300,
@@ -282,6 +290,7 @@ export default defineComponent({
         ],
         data: [
           {
+            key: 1,
             classes: 300,
             total_samples: 3390,
             globally_aligned_samples: 400,
@@ -343,7 +352,7 @@ p {
 }
 
 h1 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 h3 {
