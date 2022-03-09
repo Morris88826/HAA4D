@@ -26,5 +26,6 @@ supplementary
 supplementary.zip
 database_local
 database
-dataset
+dataset/raw
+dataset/video
 
