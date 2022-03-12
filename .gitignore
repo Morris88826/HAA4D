@@ -29,3 +29,7 @@ database
 dataset/raw
 dataset/video
 
+annotation_tool/global_alignment_ui
+annotation_tool/labelled_data
+
+
