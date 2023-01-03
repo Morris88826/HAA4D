@@ -23,13 +23,9 @@ Here is the hierarchical structure of the dataset:
 ```
 /dataset 
 ├── video
-├── raw 
+├── images 
 ├── skeletons_2d 
-│ ├── primary_classes 
-│ ├── additional_classes 
 ├── skeletons_3d 
-│ ├── primary_classes 
-│ ├── additional_classes 
 ├── processed_data
 │ ├── globally_aligned_skeletons
 │ │ ├── haa4d
