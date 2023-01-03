@@ -1,6 +1,7 @@
 import glob
 import os
 import cv2
+import json
 import tqdm
 import argparse
 
@@ -16,16 +17,10 @@ def vid2images(filename, out_path):
         success, image = vidcap.read()
         count += 1
 
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--pose', '-p')
-    args = parser.parse_args()
-
-    read_root = './dataset/video'
-    out_root = './dataset'
-
-    pose = args.pose
+def process(pose, read_root = './dataset/video', out_root="./dataset"):
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('--pose', '-p')
+    # args = parser.parse_args()
 
     raw_images_root = out_root + '/raw'
     if not os.path.exists(raw_images_root):
@@ -42,4 +37,14 @@ if __name__ == "__main__":
             os.mkdir(out_folder)
         vid2images(v, out_folder)
 
-    print('Done converting to images')
+    print('Done converting {} ~'.format(pose))
+
+if __name__ == "__main__":
+    
+    with open('./dataset/info.json', 'rb') as jsonfile:
+        info = json.load(jsonfile)
+
+    poses = info['primary_classes'] + info['additional_classes']
+    
+    for pose in poses:
+        process(pose)

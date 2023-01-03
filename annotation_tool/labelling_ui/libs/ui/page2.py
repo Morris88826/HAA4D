@@ -26,8 +26,9 @@ class Page2(tk.Frame):
         self.root = root
         self.controller = controller
         self.parent = parent
-
-        self.raw_images_root = '../../dataset/raw'
+        
+        self.dataset_root = "../../dataset"
+        self.raw_images_root = self.dataset_root + '/images'
         self.w_height = self.controller.winfo_screenheight()
         self.w_width = self.controller.winfo_screenwidth()
 
@@ -53,25 +54,25 @@ class Page2(tk.Frame):
         self.frame1.pack(fill="both", padx=5, pady=5)
         load_alphapose_button = tk.Button(
             self.frame1, text="Load from alphapose", command=self.load_from_alphapose)
-        load_alphapose_button.grid(row=0, column=0)
+        load_alphapose_button.grid(row=0, column=0, sticky="ew")
         load_joints2d_button = tk.Button(
             self.frame1, text="Load from joints2d", command=self.load_from_joints2d)
-        load_joints2d_button.grid(row=0, column=1)
+        load_joints2d_button.grid(row=0, column=1, sticky="ew")
 
         reset_button = tk.Button(
             self.frame1, text="Reset Zoom", command=self.reset_zoom)
-        reset_button.grid(row=1, column=0)
+        reset_button.grid(row=1, column=0, sticky="ew")
         modify_display_button = tk.Button(
             self.frame1, text="Modify Display", command=self.modify_displaying)
-        modify_display_button.grid(row=1, column=1)
+        modify_display_button.grid(row=1, column=1, sticky="ew")
 
         label_everything_button = tk.Button(
             self.frame1, text="Label Everything (L)", command=self.label_everything)
-        label_everything_button.grid(row=2, column=0)
+        label_everything_button.grid(row=2, column=0, sticky="ew")
 
         temporal_prediction_button = tk.Button(
             self.frame1, text="Temporal Prediction", command=self.temporal_predicting)
-        temporal_prediction_button.grid(row=2, column=1)
+        temporal_prediction_button.grid(row=2, column=1, sticky="ew")
 
         # all_shown_button = tk.Button(self.frame1, text="Mark all unoccluded", command=self.shown_all)
         # all_shown_button.grid(row=2, column=1)
@@ -127,13 +128,19 @@ class Page2(tk.Frame):
 
         self.instruction_size = self.w_width*(1-self.ratio)*(3/5)
 
+        self.frame2 = tk.Frame(self.right_frame)
+        self.frame2.pack(fill="both", padx=5, pady=5)
         auto_interpolate_button = tk.Button(
-            self.right_frame, text="Auto interpolate", command=self.auto_interpolate)
-        auto_interpolate_button.pack(fill="both", padx=5, pady=5)
+            self.frame2, text="Auto interpolate", command=self.auto_interpolate)
+        auto_interpolate_button.pack(fill="both", expand=True, side=tk.LEFT)
 
         smoothing_button = tk.Button(
-            self.right_frame, text="Motion Smoothing", command=self.gaussian_smoothing)
-        smoothing_button.pack(fill="both", padx=5, pady=5)
+            self.frame2, text="Motion Smoothing", command=self.gaussian_smoothing)
+        smoothing_button.pack(fill="both", expand=True, side=tk.LEFT)
+
+        # smoothing_button2 = tk.Button(
+        #     self.frame2, text="Motion Smoothing", command=self.gaussian_smoothing)
+        # smoothing_button2.grid(row=0, column=2, sticky="ew")
 
         # Load Model
         self.device = torch.device(
@@ -145,22 +152,25 @@ class Page2(tk.Frame):
         display3d_button = tk.Button(
             self.right_frame, text="Show/close 3D display", command=self.toggle_3d_display)
         display3d_button.pack(fill="both")
-        self.plot_3d = Figure(figsize=(4, 4), dpi=50)
+        self.plot_3d = Figure(figsize=(3, 3), dpi=50)
         self.display_3d = FigureCanvasTkAgg(
             self.plot_3d, master=self.right_frame)
         self.display_3d.get_tk_widget().pack(side="top")
 
-        save_exit_button = tk.Button(
-            self.right_frame, text="Save and Exit", command=self.save_and_exit)
-        save_exit_button.pack(fill="both", padx=5, pady=5, side="bottom")
+        self.frame3 = tk.Frame(self.right_frame)
+        self.frame3.pack(fill="both", padx=5, pady=5)
 
         exit_button = tk.Button(
-            self.right_frame, text="Exit without Saving", command=self.exit)
-        exit_button.pack(fill="both", padx=5, pady=5, side="bottom")
+            self.frame3, text="Exit", command=self.exit)
+        exit_button.pack(fill="both", expand=True, side=tk.LEFT)
 
         save_button = tk.Button(
-            self.right_frame, text="Save", command=self.save)
-        save_button.pack(fill="both", padx=5, pady=5, side="bottom")
+            self.frame3, text="Save", command=self.save)
+        save_button.pack(fill="both", expand=True, side=tk.LEFT)
+
+        save_exit_button = tk.Button(
+            self.frame3, text="Save and Exit", command=self.save_and_exit)
+        save_exit_button.pack(fill="both", expand=True, side=tk.LEFT)
 
         self.alert_label = tk.Label(
             self.right_frame, text="", fg="red", font=("Helvetica", 8))
@@ -240,7 +250,8 @@ class Page2(tk.Frame):
         self.canvas.bind("<Button-1>", self.event_handler)
         self.canvas.bind("<B1-Motion>", self.event_handler)
         self.canvas.bind("<ButtonRelease-1>", self.event_handler)
-        self.canvas.bind("<MouseWheel>", self.event_handler)
+        self.canvas.bind("<Button-4>", self.event_handler)
+        self.canvas.bind("<Button-5>", self.event_handler)
 
         self.controller.bind('z', self.event_handler)
         self.controller.bind('x', self.event_handler)
@@ -322,8 +333,10 @@ class Page2(tk.Frame):
 
     def load_from_joints2d(self):
 
-        path = "../labelled_data/skeletons_2d/{}/{}.npy".format(
-            self.path.split('/')[-2], self.path.split('/')[-1])
+        path = "{}/skeletons_2d/{}/{}.npy".format(
+            self.dataset_root, self.path.split('/')[-2], self.path.split('/')[-1])
+
+
         if not os.path.exists(path):
             return
         skel = np.load(path)
@@ -470,41 +483,51 @@ class Page2(tk.Frame):
         self.show()
 
     def event_handler(self, event):
-        if str(event.type) == "MouseWheel":
-            if event.delta < 0:
+        ## Seems to work only for Windows OS
+        # if str(event.type) == tk.EventType.MouseWheel:
+        #     if event.delta < 0:
+        #         self.zoom += 1
+        #         self.zoom = min(self.zoom, 10)
+        #     else:
+        #         self.zoom -= 1
+        #         self.zoom = max(self.zoom, -10)
+        #     self.show()
+
+        if str(event.type) == tk.EventType.ButtonPress:
+            if event.num == 4:
                 self.zoom += 1
                 self.zoom = min(self.zoom, 10)
-            else:
+                self.show()
+            elif event.num == 5:
                 self.zoom -= 1
                 self.zoom = max(self.zoom, -10)
-            self.show()
-
-        elif str(event.type) == "ButtonPress":
-            if self.current_joint == -1:
-                self.position = [event.x, event.y]
+                self.show()
             else:
-                scaler = 2**(self.zoom/5)
-                position = [(event.x-self.image_corner[0])/scaler,
-                            (event.y-self.image_corner[1])/scaler]
-
-                if self.joints2d[self.current_frame][self.current_joint] is None:
-                    self.joints2d[self.current_frame][self.current_joint] = [
-                        position[0], position[1], 1]
+                if self.current_joint == -1:
+                    self.position = [event.x, event.y]
                 else:
-                    self.joints2d[self.current_frame][self.current_joint][:2] = [
-                        position[0], position[1]]
+                    scaler = 2**(self.zoom/5)
+                    position = [(event.x-self.image_corner[0])/scaler,
+                                (event.y-self.image_corner[1])/scaler]
 
-                self.user_selected[self.current_joint][self.current_frame] = [
-                    position[0], position[1], 1]
+                    if self.joints2d[self.current_frame][self.current_joint] is None:
+                        self.joints2d[self.current_frame][self.current_joint] = [
+                            position[0], position[1], 1]
+                    else:
+                        self.joints2d[self.current_frame][self.current_joint][:2] = [
+                            position[0], position[1]]
 
-                if self.label_everything_mode:
-                    self.current_joint += 1
-                    self.instruction.delete("oval")
-                    if self.current_joint == self.num_joints:
-                        self.current_joint = -1
-                        self.label_everything_mode = False
-                self.update_skeleton()
-        elif str(event.type) == "Motion":
+                    self.user_selected[self.current_joint][self.current_frame] = [
+                        position[0], position[1], 1]
+
+                    if self.label_everything_mode:
+                        self.current_joint += 1
+                        self.instruction.delete("oval")
+                        if self.current_joint == self.num_joints:
+                            self.current_joint = -1
+                            self.label_everything_mode = False
+                    self.update_skeleton()
+        elif str(event.type) == tk.EventType.Motion:
             if self.current_joint == -1:
                 move = [event.x-self.position[0], event.y-self.position[1]]
                 self.position = [event.x, event.y]
@@ -512,7 +535,7 @@ class Page2(tk.Frame):
                 self.image_corner[1] += move[1]
                 self.show()
 
-        elif str(event.type) == "KeyPress":
+        elif str(event.type) == tk.EventType.KeyPress:
             if event.char == 'z':
                 self.current_frame -= 1
                 self.current_frame = max(1, self.current_frame)

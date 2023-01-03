@@ -26,8 +26,7 @@ supplementary
 supplementary.zip
 database_local
 database
-dataset/raw
-dataset/video
+dataset
 
 annotation_tool/global_alignment_ui
 annotation_tool/labelled_data

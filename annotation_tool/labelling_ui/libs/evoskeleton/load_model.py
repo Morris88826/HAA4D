@@ -112,7 +112,7 @@ class EvoNet(nn.Module):
         for stage_idx in range(1, num_stages):
             prediction += self.model[stage_idx](input_data)
 
-        pred = unNormalizeData(prediction.data.numpy(),
+        pred = unNormalizeData(prediction.data.cpu().numpy(),
                             self.stats['mean_3d'],
                             self.stats['std_3d'],
                             self.stats['dim_ignore_3d']

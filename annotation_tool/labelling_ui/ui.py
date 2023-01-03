@@ -7,8 +7,12 @@ class MainView(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         self.wm_title("2D Annotation")
-        self.attributes("-fullscreen", True)
-        self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
+        try:
+            self.attributes('-zoomed', True)
+            self.bind("<Escape>", lambda event: self.attributes("-zoomed", False))
+        except:
+            self.attributes('-fullscreen', True)
+            self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
 
         # creating a container
         container = tk.Frame(self) 
