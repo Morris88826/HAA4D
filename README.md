@@ -6,7 +6,7 @@ Paper can be downloaded in [here](https://cse.hkust.edu.hk/haa4d/images/paper.pd
 
 Project Website: https://cse.hkust.edu.hk/haa4d
 
-## Structures of the datasets
+## Structures of the dataset
 Currently, HAA4D consists of more than 3,300 4D skeletons in 300 human atomic action classes. The dataset include 4 different modalities of data:
 
 * RGB videos
@@ -14,7 +14,7 @@ Currently, HAA4D consists of more than 3,300 4D skeletons in 300 human atomic ac
 * 3D skeletal data
 * Globally aligned skeletons
 
-For RGB videos, it can be downloaded from https://www.cse.ust.hk/haa/ and put it in the video folder.
+For RGB videos, it can be downloaded from https://www.cse.ust.hk/haa/
 
 2D skeletal data, 3D skeletal data, and globally aligned skeletons can be downloaded in [here](https://cse.hkust.edu.hk/haa4d/download.html).
 
@@ -33,6 +33,17 @@ Here is the hierarchical structure of the dataset:
 │ ├── normalized_skeletons_3d 
 ├── info.json
 ```
+
+
+* 2D skeletal data can be generated from AlphaPose[1] or by human labeling. For human labeling, we provided an annotation tool with interpolation techniques that can faster the annotating process. The shape of the 2D skeletal data is (num_joints, 3), with dimension one being the (x, y, confidence_score) of a joint. If a joint is present in the image or not hidden, the confidence score will be 1, else -1. A more detailed topology of the skeletal is shown in Figure 1. 
+
+* For 3D skeletal data, we use a 3D lifting tool to lift the 2D joints to 3D, which is implemented based on the open-source EvoSkeleton[2]. The shape of the 3D skeletal data is (num_joints, 4), with dimension one being the (x, y, z, confidence_score) of a joint.
+
+<p align="center">
+  <img width="400"  src="https://user-images.githubusercontent.com/32810188/122911842-4d413a00-d38a-11eb-8af6-b167504927a1.png" />
+</p>
+ <p align="center"> Figure 1. HAA 3D+T Skeleton Topology</p>    
+ 
 ## Get Started
 1. run getHAA500.py to get raw images from the video
 ```
@@ -46,6 +57,11 @@ python demo.py
 ## Annotation Tool
 Upcoming
 
+
+## References
+[1] Fang HS, Xie S, Tai YW, Lu C. Rmpe: Regional multi-person pose estimation. In Proceedings of the IEEE International Conference on Computer Vision, 2017 (pp. 2334-2343).
+
+[2] Shichao Li, Lei Ke, Kevin Pratama, Yu-Wing Tai, Chi-KeungTang, and Kwang-Ting Cheng. Cascaded deep monocular 3dhuman pose estimation with evolutionary training data.
 
 ## Citation
 To cite our datasets, please use the following bibtex records:
