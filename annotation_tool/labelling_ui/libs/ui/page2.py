@@ -773,9 +773,9 @@ class Page2(tk.Frame):
                     need_save = False
 
         if need_save:
-            if not os.path.exists("../labelled_data"):
-                os.mkdir("../labelled_data")
-            out_dir_2d = '../labelled_data/skeletons_2d'
+            if not os.path.exists(self.dataset_root):
+                os.mkdir(self.dataset_root)
+            out_dir_2d = '{}/skeletons_2d'.format(self.dataset_root)
             if not os.path.exists(out_dir_2d):
                 os.mkdir(out_dir_2d)
             video_class = self.path.split('/')[-2]
@@ -785,7 +785,7 @@ class Page2(tk.Frame):
             out_path_2d = '{}/{}/{}.npy'.format(out_dir_2d,
                                              video_class, video_name)
 
-            out_dir_3d = '../labelled_data/skeletons_3d'
+            out_dir_3d = '{}/skeletons_3d'.format(self.dataset_root)
             if not os.path.exists(out_dir_3d):
                 os.mkdir(out_dir_3d)
             if not os.path.exists('{}/{}'.format(out_dir_3d, video_class)):

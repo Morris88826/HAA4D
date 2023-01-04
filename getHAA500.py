@@ -39,8 +39,7 @@ def process(pose, read_root = './dataset/video', out_root="./dataset"):
 
     print('Done converting {} ~'.format(pose))
 
-if __name__ == "__main__":
-    
+def process_all():
     with open('./dataset/info.json', 'rb') as jsonfile:
         info = json.load(jsonfile)
 
@@ -48,3 +47,10 @@ if __name__ == "__main__":
     
     for pose in poses:
         process(pose)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--pose', help="name of the pose")
+    args = parser.parse_args()
+
+    process(args.pose)
