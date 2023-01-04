@@ -31,8 +31,6 @@ Here is the hierarchical structure of the dataset:
 │ │ ├── haa4d
 │ │ ├── nturgb+d 
 │ ├── normalized_skeletons_3d 
-│ │ ├── primary_classes
-│ │ ├── additional_classes
 ├── info.json
 ```
 ## Get Started
