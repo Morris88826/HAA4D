@@ -50,7 +50,7 @@ def process_all():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--pose', help="name of the pose")
+    parser.add_argument('-p', '--pose', help="name of the action(pose)")
     args = parser.parse_args()
 
     process(args.pose)
