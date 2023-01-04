@@ -55,7 +55,7 @@ python getHAA500.py -p action_name
 python demo.py
 ```
 ## Annotation Tool
-See the documentation [here](annotation_tool/labelling_ui/READMD.md).
+See the documentation [here](annotation_tool/labelling_ui/README.md).
 
 
 ## References
