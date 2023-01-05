@@ -1,5 +1,5 @@
-import glob
 import os
+import glob
 import json
 import numpy as np
 import tkinter as tk
@@ -18,9 +18,6 @@ class Page1(tk.Frame):
 
         s = ttk.Style()
         s.configure('Treeview', rowheight=50) 
-
-        # label = tk.Label(self, text="This is page 1")
-        # label.pack()
 
         treeview = ttk.Treeview(self)
         self.treeview = treeview

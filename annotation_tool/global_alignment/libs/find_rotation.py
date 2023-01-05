@@ -1,5 +1,4 @@
 import numpy as np
-from numpy.core.numeric import load
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
@@ -43,7 +42,7 @@ class AngleModel(nn.Module):
 
         return output, R
 
-def rotation_matrix_3d(points_3d, target_points_3d):
+def get_rotation_matrix_3d(points_3d, target_points_3d):
 
     points_3d = np.copy(points_3d.T)
 

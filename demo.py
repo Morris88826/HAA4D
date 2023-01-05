@@ -43,6 +43,18 @@ if __name__ == "__main__":
     plt.show()
 
     try: 
+        normalized_skeletons_3d = np.load(
+            "./dataset/processed_data/normalized_skeletons_3d/{}/{}_{:03d}.npy".format(class_name, class_name, video_idx))[frame_idx]
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection="3d")
+        plot_3d(normalized_skeletons_3d, "haa4d", ax, max_range=1)
+        plt.title("Normalized 3d skeleton")
+        plt.show()
+    except:
+        print("Normalized 3d skeleton not exist.")
+
+    try: 
         globally_aligned_skeletons = np.load(
             "./dataset/processed_data/globally_aligned_skeletons/haa4d/{}/{}_{:03d}.npy".format(class_name, class_name, video_idx))[frame_idx]
 

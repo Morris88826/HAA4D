@@ -1,23 +1,21 @@
-import tkinter as tk
-import os
-from tkinter.constants import LEFT, NO
-from PIL import ImageTk, Image
+
 import os
 import json
+import torch
 import numpy as np
+import tkinter as tk
 from copy import deepcopy
+from PIL import ImageTk, Image
 from scipy.ndimage import gaussian_filter1d
-from .helper_func import modify_joints
+from matplotlib.figure import Figure
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.backends.backend_tkagg import (
-    FigureCanvasTkAgg, NavigationToolbar2Tk)
-from matplotlib.figure import Figure
-from libs.evoskeleton.load_model import EvoNet
-import torch
+    FigureCanvasTkAgg)
 from .temp_page import Temporal_window
 from .modify_display import Modify_display_window
-from libs.skeleton.skeleton import Skeleton
-
+from .helper_func import modify_joints
+from libs.evoskeleton.load_model import EvoNet
+from libs.skeleton.skeleton import Skeleton, normalize_skeletons
 
 class Page2(tk.Frame):
     def __init__(self, root, controller, parent=None):
@@ -137,10 +135,6 @@ class Page2(tk.Frame):
         smoothing_button = tk.Button(
             self.frame2, text="Motion Smoothing", command=self.gaussian_smoothing)
         smoothing_button.pack(fill="both", expand=True, side=tk.LEFT)
-
-        # smoothing_button2 = tk.Button(
-        #     self.frame2, text="Motion Smoothing", command=self.gaussian_smoothing)
-        # smoothing_button2.grid(row=0, column=2, sticky="ew")
 
         # Load Model
         self.device = torch.device(
@@ -808,7 +802,17 @@ class Page2(tk.Frame):
 
             skeletons_3d = self.convert_skeletons_3d(skeletons_2d)
             np.save(out_path_3d, skeletons_3d)
+            
 
+            normalized_3d_skeleton_dir = "{}/processed_data/normalized_skeletons_3d".format(self.dataset_root)
+            if not os.path.exists(normalized_3d_skeleton_dir):
+                os.mkdir(normalized_3d_skeleton_dir)
+            
+            if not os.path.exists('{}/{}'.format(normalized_3d_skeleton_dir, video_class)):
+                os.mkdir('{}/{}'.format(normalized_3d_skeleton_dir, video_class))
+            out_normalized_3d_skeleton_path = '{}/{}/{}.npy'.format(normalized_3d_skeleton_dir,
+                                             video_class, video_name)
+            np.save(out_normalized_3d_skeleton_path, normalize_skeletons(skeletons_3d, type='haa4d'))
             print('Saved')
 
     def convert_skeletons_3d(self, skeletons_2d):

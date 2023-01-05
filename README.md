@@ -35,9 +35,9 @@ Here is the hierarchical structure of the dataset:
 ```
 
 
-* 2D skeletal data can be generated from AlphaPose[1] or by human labeling. For human labeling, we provided an annotation tool with interpolation techniques that can faster the annotating process. The shape of the 2D skeletal data is (num_joints, 3), with dimension one being the (x, y, confidence_score) of a joint. If a joint is present in the image or not hidden, the confidence score will be 1, else -1. A more detailed topology of the skeletal is shown in Figure 1. 
+* 2D skeletal data can be generated from AlphaPose[1] or by human labeling. For human labeling, we provided an annotation tool with interpolation techniques that can faster the annotating process. The shape of the 2D skeletal data is (num_joints, 2), with dimension one being the (x, y) of a joint. A more detailed topology of the skeletal is shown in Figure 1. 
 
-* For 3D skeletal data, we use a 3D lifting tool to lift the 2D joints to 3D, which is implemented based on the open-source EvoSkeleton[2]. The shape of the 3D skeletal data is (num_joints, 4), with dimension one being the (x, y, z, confidence_score) of a joint.
+* For 3D skeletal data, we use a 3D lifting tool to lift the 2D joints to 3D, which is implemented based on the open-source EvoSkeleton[2]. The shape of the 3D skeletal data is (num_joints, 3), with dimension one being the (x, y, z) of a joint.
 
 <p align="center">
   <img width="400"  src="https://user-images.githubusercontent.com/32810188/122911842-4d413a00-d38a-11eb-8af6-b167504927a1.png" />
@@ -45,9 +45,9 @@ Here is the hierarchical structure of the dataset:
  <p align="center"> Figure 1. HAA 3D+T Skeleton Topology</p>    
  
 ## Get Started
-1. run getHAA500.py to get raw images from the video
+1. run get_HAA500.py to get raw images from the video
 ```
-python getHAA500.py -p action_name
+python get_HAA500.py -p action_name
 ```
 
 2. To view the skeleton example, run demo.py

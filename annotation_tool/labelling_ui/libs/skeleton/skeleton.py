@@ -2,11 +2,11 @@ import numpy as np
 from .joint import Joint2d, Joint3d
 
 class Skeleton():
-    def __init__(self, type='haa3d'):
+    def __init__(self, type='haa4d'):
         
         # Skeleton Info
         self.type = type
-        if type == 'haa3d':
+        if type == 'haa4d':
             self.num_joints = 17
 
             self.root_joint = 'lower_spine'
@@ -272,7 +272,7 @@ def normalize_skeleton(skeleton, type):
         new_skeleton = Skeleton3d(normalized_spher, type, is_cartesian=False).get_cartesian_joints()
     return new_skeleton
 
-def normalize_skeletons(all_skeletons, type='haa3d'):
+def normalize_skeletons(all_skeletons, type='haa4d'):
     if all_skeletons.shape[-1] == 3:
         normalized_all_skeletons = np.copy(all_skeletons)
         num_joints = normalized_all_skeletons.shape[1]

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.figure import Figure
 import json
-from libs.alignment.skeleton import Skeleton
+from libs.skeleton.skeleton import Skeleton
 from libs.util import get_golden_circle
 
 

@@ -22,7 +22,7 @@ def process(pose, read_root = './dataset/video', out_root="./dataset"):
     # parser.add_argument('--pose', '-p')
     # args = parser.parse_args()
 
-    raw_images_root = out_root + '/raw'
+    raw_images_root = out_root + '/images'
     if not os.path.exists(raw_images_root):
         os.mkdir(raw_images_root)
 
@@ -51,6 +51,10 @@ def process_all():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--pose', help="name of the action(pose)")
+    parser.add_argument('--process_all', action='store_true')
     args = parser.parse_args()
 
-    process(args.pose)
+    if args.process_all:
+        process_all()
+    else:
+        process(args.pose)
