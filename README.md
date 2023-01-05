@@ -59,6 +59,8 @@ python demo.py
 ### Labelling UI
 See the documentation [here](annotation_tool/labelling_ui/README.md).
 
+### Global Aignment
+See the documentation [here](annotation_tool/global_alignment/README.md).
 
 ## References
 [1] Fang HS, Xie S, Tai YW, Lu C. Rmpe: Regional multi-person pose estimation. In Proceedings of the IEEE International Conference on Computer Vision, 2017 (pp. 2334-2343).
